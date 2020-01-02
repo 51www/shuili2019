@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+</head>
+<style>
+body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,table,tbody,tr,th,td,input{margin:0;padding:0;border:0}
+a,a:active,a:hover,a:focus,a:visited{text-decoration:none}
+a,img{-webkit-touch-callout:none;max-width: 100%}
+ol,ul,li{list-style:none}
+    
+.middle{ max-width:768px;margin: 0 auto;font-size:16px}  
+.middle #wg{margin: 0 .41rem;}
+.middle #wg iframe{width:100%;height:11.15rem;}
+</style>
+<body>
+	<div class="middle">
+		<div id="wg"> 
+			<iframe frameBorder="0" scrolling="no" width=100% height=100%  src="./compressed.tracemonkey-pldi-09.pdf"></iframe>
+			<div>
+				<hr>
+				<h3>附件</h3>
+				<ul>
+					<li>sdfsdf</li>
+					<li>sdfsdf</li>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+</body>
+<script>
+    new function (){
+    var _self = this;
+    _self.width =1080;//设置UI提供的基准尺寸
+    _self.fontSize = 100;//默认字体大小，使用时除以此参数(1rem=100px)。为保证谷歌良好适配，320/_self.width*_self.fontSize>12
+    _self.widthProportion = function(){
+    var b_width = (document.body&&
+      document.body.clientWidth ||
+      document.getElementsByTagName("html")[0].offsetWidth);
+	  b_width=b_width>768?768:(b_width<320?320:b_width)//_self.width  //设置安全尺寸最宽768px,最小320px
+      return b_width/_self.width
+    };
+    _self.changePage = function(){
+        document.getElementsByTagName("html")[0].setAttribute("style","font-size:"+_self.widthProportion()*_self.fontSize+"px !important");
+    }
+    _self.changePage();
+    window.addEventListener("resize",function(){_self.changePage();},false);
+    };
+</script>
+</html>
