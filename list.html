@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<title>主要产品列表上传</title>
+	<script src='./js/vue.min.js' type='text/javascript'></script>
+	<script src='./js/axios.min.js' type='text/javascript'></script>
+	<script src='./js/adapt.js' type='text/javascript'></script>
+	<link rel="stylesheet" href="./css/zane_web_min.css">
+</head>
+<style>
+
+
+.bt3{width:.83rem;height:.63rem;background:rgba(60,124,246,1);border-radius:3px;font-size: 12px;color:#fff}
+.search input{width:100%;height:.63rem;;background:rgba(255,255,255,1);border:1px solid rgba(209,209,209,1);border-radius:.03rem;padding: .22rem .15rem;box-sizing: border-box;}
+.w-p06{width:15%}
+.w-p425{width:43.5%}
+.w-p145{width:16.5%}
+.w-p11{width:19.18%}
+table thead tr{height:44px;background:rgba(60,124,246,1);color:#fff;}
+table thead tr th
+table thead tr th.w-l{width: 0.05rem;}
+table thead tr th.w-r{width: .18rem;}
+table tbody tr td.w-l,table tbody tr td.w-r{border-bottom: 1px solid #fff;}
+table tbody tr td{padding:.24rem 0;}
+table tbody tr td{border-bottom:1px solid #D1D1D1;}
+table tbody tr.active{background: rgba(243,247,255,1);}
+.page span{padding:0 .14rem;height:.33rem;background:rgba(255,255,255,1);border:1px solid rgba(209,209,209,1);font-size:12px;font-weight:400;
+color:rgba(95,95,99,1);text-align: center;margin-right: .18rem;}
+.page span:last-child{margin-right: 0;}
+</style>
+<body>
+	<div class="middle"  id="app" v-cloak>
+        <div class="head font-14 mt-64 d-flex justify-content-between ml-58 mr-136 color-g mb-32">
+            <div class="d-flex flex-column align-items-center" @click="redict('pdf.html')">
+                <div>设代机构及制度</div>
+                <div></div>
+            </div>
+            <div class="d-flex flex-column align-items-center active">
+                <div>主要产品列表</div>
+                <div></div>
+            </div>
+            <div class="d-flex flex-column align-items-center" @click="redict('com.html')">
+                <div>评价</div>
+                <div></div>
+            </div>
+        </div>
+        <div class="mid mb-56 pb-50">
+            <div class="search ml-52 mr-40 pt-40">
+                <form class="d-flex justify-content-between">
+                    <input class="flex1 w-100 font-12" name="" placeholder="请输入图纸、报告、手册名称" v-model="keyword" />
+                    <button class="bt3 ml-22" @click="sub">搜索</button>
+                </form>
+                <div class="font-13 color-b mt-32 mb-26">
+                    <span></span>总数：{{count.count}} </span><span class="ml-20">图纸：{{count.page}} </span><span class="ml-20">报告：{{count.report}} </span><span class="ml-20"></span>来往文件：{{count.document}}</span>
+                </div> 
+            </div>
+            <table class="font-11 color-b2 text-center" cellspacing=0 >
+                <thead>
+                    <tr>
+                        <th class="w-l"> </th>
+                        <th class="w-p06">序号</th>
+                        <th class="w-p425">名称</th>
+                        <th class="w-p145">类别</th>
+                        <th class="w-p11">时间</th>
+                        <th class="w-r"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="doclist.length<1" >
+                        <td colspan="6">暂无数据</td>
+                    </tr>
+                    <tr v-for="(v,k) in doclist.list" @click="select(k)" :class="k==index?'active':''">
+                        <td class="w-l"></td>
+                        <td>{{v.sort}}</td>
+                        <td>{{v.name}}</td>
+                        <td>{{v.type}}</td>
+                        <td>{{v.ctime}}</td>
+                        <td class="w-r"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page mt-42 d-flex justify-content-center">
+                <span @click="goPage(1)">首页</span>
+                <span @click="goPage(page-1)">上一页</span>
+                <span @click="goPage(page+1)">下一页</span>
+                <span @click="goPage(page_count)">尾页</span>
+           </div>
+        </div>
+		
+		
+	</div>
+</body>
+<script>
+var vm = new Vue({
+    el:'#app',
+    data:{ 
+        index:-1, 
+        page:1,
+        page_count:1,
+        doclist:[],
+        count:{},
+        keyword:''
+    },
+    mounted:function(){
+        var that=this;
+        //取得总计数量
+		axios({
+		  method:'get',
+		  url:'https://api.aajiao.cn/shuili/p1'
+		}).then(function (response) {
+			if(response.data.code==0){
+				that.count=response.data.data 
+			}
+        });
+        //取得列表页
+        axios({
+		  method:'get',
+		  url:'https://api.aajiao.cn/shuili/p2'
+		}).then(function (response) {
+			if(response.data.code==0){
+                that.doclist=response.data.data;
+                that.page_count=response.data.page_count;
+                console.log(response.data.data)
+			}
+		});
+    },
+    methods:{
+        select:function(index){
+			this.index=index
+        },
+        goPage:function(p){
+            var that=this;
+            axios({
+            method:'get',
+            url:'https://api.aajiao.cn/shuili/p2/'+p
+            }).then(function (response) {
+                if(response.data.code==0){
+                    that.doclist=response.data.data;
+                    console.log(response.data.data)
+                }
+            });
+        },
+        redict:function(uri){
+            window.location.href=uri;
+            return false;
+        },
+        sub:function(){
+            //提交 搜索关键词
+            console.log(this.keyword);
+             /*
+            axios.post(url,data
+            ).then(function (response) {
+                console.log(response)
+            });
+            */
+        }
+    }
+})
+</script>
+
+</html>

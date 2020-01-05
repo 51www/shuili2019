@@ -1,6 +1,6 @@
 new function (){
     var _self = this;
-    _self.width =1080;//设置UI提供的基准尺寸
+    _self.width =750;//设置UI提供的基准尺寸
     _self.fontSize = 100;
     _self.widthProportion = function(){
     var b_width = (document.body&&

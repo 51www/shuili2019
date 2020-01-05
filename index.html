@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<title>登录上传</title>
+	<script src='./js/vue.min.js' type='text/javascript'></script>
+	<script src='./js/axios.min.js' type='text/javascript'></script>
+	<script src='./js/adapt.js' type='text/javascript'></script>
+	<link rel="stylesheet" href="./css/zane_web_min.css">
+</head>
+<style>
+.head img{width: 2.69rem;height: auto;}
+.mt-86{margin-top: .86rem;}
+.mt-120{margin-top: 1.2rem;}
+
+.wg1{    background-color: #fff;height: .97rem;border:1px solid rgba(232,232,232,1);border-radius:.14rem;}
+.wg1 input{width:60%;}
+</style>
+<body>
+	<div class="middle"  id="app" v-cloak>
+        <div class="head font-16 mt-78 ml-30">
+            <img src="./images/logo.png"/>
+        </div>
+        <div class="mt-86 font-20 text-center">
+            <h4>北京市南水北调配套工程</h4>
+            <h4>东干渠工程</h4>
+        </div>
+		<div class="con mx-28 mt-120"> 
+			 <form>
+                <div class="wg1 d-flex align-items-center justify-content-between font-16">
+                    <span class="pl-20">公司名(必填):</span>
+                    <input class="pr-20" name="" placeholder="请输入公司名" />
+                </div>
+                <div class="wg1 mt-20 d-flex align-items-center justify-content-between font-16">
+                    <span class="pl-20">姓名(选填):</span>
+                    <input class="pr-20" name="" placeholder="请输入姓名" />
+                </div>
+                <div class="wg1 mt-20 d-flex align-items-center justify-content-between font-16">
+                    <span class="pl-20">电话(必填):</span>
+                    <input class="pr-20" name="" placeholder="请输入手机号" />
+                </div>
+                <button class="bt2 mt-78">提交</button>
+             </form>
+		</div>
+		
+	</div>
+</body>
+<script>
+var vm = new Vue({
+    el:'#app',
+    data:{ 
+        index:0, 
+        doclist:[]
+    },
+    mounted:function(){
+        console.log(23)
+		var that=this;
+		axios({
+		  method:'get',
+		  url:'https://api.aajiao.cn/shuili/p3'
+		}).then(function (response) {
+			if(response.data.code==0){
+				that.doclist=response.data.data 
+			}
+		});
+    },
+    methods:{
+       changeP:function(index){
+			this.index=index
+		}
+    }
+})
+</script>
+
+</html>

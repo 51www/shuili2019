@@ -3,47 +3,64 @@
 <head>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-	<title>zsh</title>
+	<title>主要产品列表上传</title>
 	<script src='./js/vue.min.js' type='text/javascript'></script>
 	<script src='./js/axios.min.js' type='text/javascript'></script>
 	<script src='./js/adapt.js' type='text/javascript'></script>
-	<link rel="stylesheet" href="zane_web_min.css">
+	<link rel="stylesheet" href="./css/zane_web_min.css">
 </head>
-<style>
-body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,table,tbody,tr,th,td,input{margin:0;padding:0;border:0}
-a,a:active,a:hover,a:focus,a:visited{text-decoration:none}
-a,img{-webkit-touch-callout:none;max-width: 100%}
-ol,ul,li{list-style:none}
-    
-.middle{ max-width:768px;margin: 0 auto;font-size:16px}  
-.middle #wg{margin: 0 .41rem;}
+<style> 
 .middle #wg iframe{width:100%;height:11.15rem;}
+.line{width:100%;height:1px;background:rgba(160,160,160,1);opacity:0.5;}
+.doclist ul li{margin-bottom:.1rem;width: 52%;padding: .03rem .05rem;border-radius: .05rem;}
+.doclist ul li.active{background-image: linear-gradient(to right,#4782F1 54%, #fff);color: #fff;}
 </style>
 <body>
 	<div class="middle"  id="app" v-cloak>
-		<div id="wg"> 
-			<iframe frameBorder="0" scrolling="no" width=100% height=100%  :src="doclist[index].href"></iframe>
-			<div>
-				<hr>
-				<h3>附件</h3>
-				<ul>
-					<li v-for="(v,k,index) in doclist" @click="changeP(k)">{{v.name}}</li>
-					<li>sdfsdf</li>
-				</ul>
+		<div class="head font-14 mt-64 d-flex justify-content-between ml-58 mr-136 color-g mb-32">
+            <div class="d-flex flex-column align-items-center active" @click="redict('pdf.html')">
+                <div>设代机构及制度</div>
+                <div></div>
+            </div>
+            <div class="d-flex flex-column align-items-center " @click="redict('list.html')">
+                <div>主要产品列表</div>
+                <div></div>
+            </div>
+            <div class="d-flex flex-column align-items-center" @click="redict('com.html')">
+                <div>评价</div>
+                <div></div>
+            </div>
+        </div>
+        <div class="mid mb-20 pb-30">
+			<div id="wg">  
+				<template>
+					<div>
+					  <pdf src="./images/demo1.pdf"></pdf>
+					</div>
+				  </template>
+				  <iframe :src="'./js/pdfjs/web/viewer.html?file=https://51www.github.io/shuili2019/'+doclist[index].href" frameBorder="0" scrolling="no" width=100% height=100%  download="11" ></iframe>
+				<div class="mt-40 mx-44 doclist">
+					<hr class="line">
+					<h3 class="font-12 mt-38 color-b3">附件:</h3>
+					<ul class="mt-26 font-11 color-bb1">
+						<li v-for="(v,k) in doclist" @click="changeP(k)" :class="k==index?'active':''">{{v.name}}</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		
 	</div>
 </body>
 <script>
+
 var vm = new Vue({
+	
     el:'#app',
     data:{ 
         index:0, 
-        doclist:[]
+		doclist:[{href:''}],
+		pdf_conf:''
     },
     mounted:function(){
-        console.log(23)
 		var that=this;
 		axios({
 		  method:'get',
@@ -53,11 +70,16 @@ var vm = new Vue({
 				that.doclist=response.data.data 
 			}
 		});
+		that.pdf_conf='<iframe src="./images/demo1.pdf" frameBorder="0" scrolling="no" width=100% height=100%  download="11" ></iframe>';
     },
     methods:{
        changeP:function(index){
 			this.index=index
-		}
+		},
+		redict:function(uri){
+            window.location.href=uri;
+            return false;
+        }
     }
 })
 </script>

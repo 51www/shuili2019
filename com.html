@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<title>评论</title>
+	<script src='./js/vue.min.js' type='text/javascript'></script>
+	<script src='./js/axios.min.js' type='text/javascript'></script>
+	<script src='./js/adapt.js' type='text/javascript'></script>
+    <link rel="stylesheet" href="./css/zane_web_min.css">
+    <link rel="stylesheet" href="./css/font_1594804_8t4i9bzdlsb.css">
+</head>
+<style> 
+.mx-85{margin: 0 .85rem;}
+.slist{color:#F5BC4C}
+.slist span{margin-right:.1rem;}
+.line{height:1px;background:rgba(160,160,160,1);opacity:0.5;}
+.plist{margin-right: -0.4rem;}
+.circle{width: .3rem;height: .3rem;border: 1px solid #D1D1D1;display: block;border-radius: 50%;}
+.circle.selected{background-color: #3C7CF6;border: 1px solid #3C7CF6}
+.circle.selected::after{content: '✓'; color: #fff;font-size: 12px;position: relative;left: 3px; bottom: 2px;}
+.wg2 textarea{width:100%;height:1.39rem;background:rgba(255,255,255,1);border:1px solid rgba(209,209,209,1);border-radius:.03rem;box-sizing: border-box;}
+.wg3{font-size:10px;font-weight:400;color:rgba(56,58,62,1);line-height:55px;opacity:0.4;position:absolute;right: 8px;bottom: -15px;}
+.star-group>span{width:.8rem;}
+</style>
+<body>
+	<div class="middle"  id="app" v-cloak>
+		<div class="head font-14 mt-64 d-flex justify-content-between ml-58 mr-136 color-g mb-32">
+            <div class="d-flex flex-column align-items-center active" @click="redict('pdf.html')">
+                <div>设代机构及制度</div>
+                <div></div>
+            </div>
+            <div class="d-flex flex-column align-items-center " @click="redict('list.html')">
+                <div>主要产品列表</div>
+                <div></div>
+            </div>
+            <div class="d-flex flex-column align-items-center" @click="redict('com.html')">
+                <div>评价</div>
+                <div></div>
+            </div>
+        </div>
+        <div class="mid mb-20 pb-56">
+			 <h3 class="font-14 pt-58 mx-85 text-center color-b3">
+                {{title}}
+             </h3>
+             <div class="mx-62 ">
+                <h4 class="font-14 mt-22 mb-42">总体评价</h4>
+                <div class="star-group font-13 color-b4 d-flex justify-content-start align-items-center">
+                    <span>进度</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.progress<1,'icon-star':mainCom.zong.progress>0}" @click="mainCom.zong.progress=1"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.progress<2,'icon-star':mainCom.zong.progress>1}"   @click="mainCom.zong.progress=2"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.progress<3,'icon-star':mainCom.zong.progress>2}" @click="mainCom.zong.progress=3"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.progress<4,'icon-star':mainCom.zong.progress>3}" @click="mainCom.zong.progress=4"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.progress<5,'icon-star':mainCom.zong.progress>4}" @click="mainCom.zong.progress=5"></span>
+                    </div>
+                </div>
+                <div class="star-group font-13 mt-46 color-b4 d-flex justify-content-start align-items-center">
+                    <span>质量</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.quality<1,'icon-star':mainCom.zong.quality>0}" @click="mainCom.zong.quality=1"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.quality<2,'icon-star':mainCom.zong.quality>1}"   @click="mainCom.zong.quality=2"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.quality<3,'icon-star':mainCom.zong.quality>2}" @click="mainCom.zong.quality=3"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.quality<4,'icon-star':mainCom.zong.quality>3}" @click="mainCom.zong.quality=4"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.quality<5,'icon-star':mainCom.zong.quality>4}" @click="mainCom.zong.quality=5"></span>
+                    </div>
+                </div>
+                <div class="star-group font-13 mt-46 color-b4 d-flex justify-content-start align-items-center">
+                    <span>服务</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.service<1,'icon-star':mainCom.zong.service>0}" @click="mainCom.zong.service=1"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.service<2,'icon-star':mainCom.zong.service>1}"   @click="mainCom.zong.service=2"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.service<3,'icon-star':mainCom.zong.service>2}" @click="mainCom.zong.service=3"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.service<4,'icon-star':mainCom.zong.service>3}" @click="mainCom.zong.service=4"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.zong.service<5,'icon-star':mainCom.zong.service>4}" @click="mainCom.zong.service=5"></span>
+                    </div>
+                </div>
+             </div>
+             <hr class="line mt-50 mx-44"/>
+             <div class="mx-62 ">
+                <h4 class="font-14 mt-22 mb-42">人员评价</h4>
+                <div class="star-group font-13 color-b4 d-flex justify-content-start align-items-center">
+                    <span>进度</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.progress<1,'icon-star':mainCom.ren.progress>0}" @click="mainCom.ren.progress=1"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.progress<2,'icon-star':mainCom.ren.progress>1}"   @click="mainCom.ren.progress=2"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.progress<3,'icon-star':mainCom.ren.progress>2}" @click="mainCom.ren.progress=3"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.progress<4,'icon-star':mainCom.ren.progress>3}" @click="mainCom.ren.progress=4"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.progress<5,'icon-star':mainCom.ren.progress>4}" @click="mainCom.ren.progress=5"></span>
+                    </div>
+                </div>
+                <div class="star-group font-13 mt-46 color-b4 d-flex justify-content-start align-items-center">
+                    <span>质量</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.quality<1,'icon-star':mainCom.ren.quality>0}" @click="mainCom.ren.quality=1"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.quality<2,'icon-star':mainCom.ren.quality>1}"   @click="mainCom.ren.quality=2"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.quality<3,'icon-star':mainCom.ren.quality>2}" @click="mainCom.ren.quality=3"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.quality<4,'icon-star':mainCom.ren.quality>3}" @click="mainCom.ren.quality=4"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.quality<5,'icon-star':mainCom.ren.quality>4}" @click="mainCom.ren.quality=5"></span>
+                    </div>
+                </div>
+                <div class="star-group font-13 mt-46 color-b4 d-flex justify-content-start align-items-center">
+                    <span>服务</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.service<1,'icon-star':mainCom.ren.service>0}" @click="mainCom.ren.service=1"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.service<2,'icon-star':mainCom.ren.service>1}"   @click="mainCom.ren.service=2"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.service<3,'icon-star':mainCom.ren.service>2}" @click="mainCom.ren.service=3"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.service<4,'icon-star':mainCom.ren.service>3}" @click="mainCom.ren.service=4"></span>
+                        <span :class="{'iconfont':true,'icon-star1':mainCom.ren.service<5,'icon-star':mainCom.ren.service>4}" @click="mainCom.ren.service=5"></span>
+                    </div>
+                </div>
+                <div class="plist mt-54 d-flex flex-wrap">
+                    <div v-for="(v,k) in userlist" class="d-flex align-items-center mr-38 mb-10">
+                        <span :class="{'circle':1,'selected':filters(v.uid)}" @click="selected(k,v.uid)"></span>
+                        <span class="ml-12">{{v.name}}</span>
+                    </div>
+                </div>
+                <div class="star-group font-13 mt-46 color-b4 d-flex justify-content-start align-items-center" v-for="(v,k) in users" >
+                    <span >{{userlist[v.index].name}}</span>
+                    <div class="slist ml-74 font-18">
+                        <span :class="{'iconfont':true,'icon-star1':users[k].star<1,'icon-star':users[k].star>0}" @click="users[k].star=1"></span>
+                        <span  :class="{'iconfont':true,'icon-star1':users[k].star<2,'icon-star':users[k].star>1}" @click="users[k].star=2"></span>
+                        <span  :class="{'iconfont':true,'icon-star1':users[k].star<3,'icon-star':users[k].star>2}" @click="users[k].star=3"></span>
+                        <span  :class="{'iconfont':true,'icon-star1':users[k].star<4,'icon-star':users[k].star>3}"  @click="users[k].star=4"></span>
+                        <span  :class="{'iconfont':true,'icon-star1':users[k].star<5,'icon-star':users[k].star>4}" @click="users[k].star=5"></span>
+                    </div>
+                </div>
+             </div>
+             <hr class="line mt-58 mx-44"/>
+             <div class="wg2 mt-54 mx-44 position-relative">
+                 <textarea class="p-16 color-b3" v-model="content"></textarea>
+                 <span class="wg3">500字</span>
+             </div>
+             <div class="mt-26 ml-64 ">
+                <div  class="d-flex align-items-center mr-38 mb-10">
+                    <span :class="{'circle':1,'selected':named}" @click="named=!named"></span>
+                    <span class="ml-30">匿名提交</span>
+                </div>
+            </div>
+            
+        </div>
+        <div class="mx-28">
+            <button class="bt2 mt-56 mb-48" @click="sub">提交</button>
+        </div>
+       
+	</div>
+</body>
+<script>
+
+var vm = new Vue({
+	
+    el:'#app',
+    data:{ 
+        index:0, 
+        title:'',
+		userlist:[],
+        users:[],
+        content:'',
+        mainCom:{
+            'zong':{"progress":0,"quality":0,"service":0},
+            'ren':{"progress":0,"quality":0,"service":0}
+        },
+        named:false
+    },
+    mounted:function(){
+		var that=this;
+		axios({
+		  method:'get',
+		  url:'https://api.aajiao.cn/shuili/p4'
+		}).then(function (response) {
+			if(response.data.code==0){
+                that.userlist=response.data.data.list 
+                that.title=response.data.data.title
+                console.log(that.userlist)
+			}
+		});
+    },
+    methods:{
+        selected:function(index,user_id){
+            for(var i=0;i<this.users.length;i++){
+                if(this.users[i].uid==user_id){
+                    this.users.splice(i,1);
+                    return false;
+                }
+            }
+            this.users.push({"index":index,"uid":user_id,'star':0})
+            console.log(this.users);
+		},
+		redict:function(uri){
+            window.location.href=uri;
+            return false;
+        },
+        filters:function(user_id){
+            for(var i=0;i<this.users.length;i++){
+                if(this.users[i].uid==user_id){
+                    return true;
+                }
+            }
+            return false;
+        },
+        sub:function(){
+            //提交 用户打星，总评打星，评价内容，是否匿名
+            console.log(this.users,this.mainCom,this.content,this.named);
+            /*
+            axios.post(url,data
+            ).then(function (response) {
+                console.log(response)
+            });
+            */
+        }
+    }
+})
+</script>
+
+</html>
