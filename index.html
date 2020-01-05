@@ -23,25 +23,23 @@
             <img src="./images/logo.png"/>
         </div>
         <div class="mt-86 font-20 text-center">
-            <h4>北京市南水北调配套工程</h4>
-            <h4>东干渠工程</h4>
+            <h4>{{title.main}}</h4>
+            <h4>{{title.sub}}</h4>
         </div>
 		<div class="con mx-28 mt-120"> 
-			 <form>
                 <div class="wg1 d-flex align-items-center justify-content-between font-16">
                     <span class="pl-20">公司名(必填):</span>
-                    <input class="pr-20" name="" placeholder="请输入公司名" />
+                    <input class="pr-20" v-model="company" placeholder="请输入公司名" />
                 </div>
                 <div class="wg1 mt-20 d-flex align-items-center justify-content-between font-16">
                     <span class="pl-20">姓名(选填):</span>
-                    <input class="pr-20" name="" placeholder="请输入姓名" />
+                    <input class="pr-20" v-model="name" placeholder="请输入姓名" />
                 </div>
                 <div class="wg1 mt-20 d-flex align-items-center justify-content-between font-16">
                     <span class="pl-20">电话(必填):</span>
-                    <input class="pr-20" name="" placeholder="请输入手机号" />
+                    <input class="pr-20" v-model="tel" placeholder="请输入手机号" />
                 </div>
-                <button class="bt2 mt-78">提交</button>
-             </form>
+                <button class="bt2 mt-78" @click="sub">提交</button>
 		</div>
 		
 	</div>
@@ -50,11 +48,12 @@
 var vm = new Vue({
     el:'#app',
     data:{ 
-        index:0, 
-        doclist:[]
+        company:"",
+        name:'',
+        tel:'',
+        title:{main:'北京市南水北调配套工程',sub:'东干渠工程'},
     },
     mounted:function(){
-        console.log(23)
 		var that=this;
 		axios({
 		  method:'get',
@@ -66,9 +65,17 @@ var vm = new Vue({
 		});
     },
     methods:{
-       changeP:function(index){
-			this.index=index
-		}
+        sub:function(){
+            //提交 搜索关键词
+            console.log(this.company,this.name,this.tel);
+             /*
+            axios.post(url,data
+            ).then(function (response) {
+                console.log(response)
+            });
+            */
+           window.location.href="com.html"
+        }
     }
 })
 </script>
